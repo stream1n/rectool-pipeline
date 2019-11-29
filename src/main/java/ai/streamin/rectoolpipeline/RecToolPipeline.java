@@ -38,12 +38,12 @@ public class RecToolPipeline {
 		long recTime = Instant.now().toEpochMilli();
 		
 		PCollection<KV<ResultKey, Result>> candidate = pipeline
-				.apply("Read Candidate File", TextIO.read().from(options.getCandidateFile().get()))
-				.apply("Convert Candidate To Records", ParDo.of(new ConvertCSVToResult(options.getCsvDelimiter().get())));
+				.apply("Read Candidate File", TextIO.read().from(options.getCandidateFile()))
+				.apply("Convert Candidate To Records", ParDo.of(new ConvertCSVToResult(options.getCsvDelimiter())));
 		
 		PCollection<KV<ResultKey, Result>> reference = pipeline
-				.apply("Read Reference File", TextIO.read().from(options.getReferenceFile().get()))
-				.apply("Convert Reference To Records", ParDo.of(new ConvertCSVToResult(options.getCsvDelimiter().get())));
+				.apply("Read Reference File", TextIO.read().from(options.getReferenceFile()))
+				.apply("Convert Reference To Records", ParDo.of(new ConvertCSVToResult(options.getCsvDelimiter())));
 		
         TupleTag<Result> candidateTag = new TupleTag<>();
         TupleTag<Result> referenceTag = new TupleTag<>();
@@ -59,8 +59,11 @@ public class RecToolPipeline {
 
 		try {
 			result.waitUntilFinish();
-		} catch (Exception exc) {
-			result.cancel();
+		}
+		catch (Exception exc) {
+			try {
+				result.cancel();
+			} catch(UnsupportedOperationException e) {}
 		}
 
 		return result;

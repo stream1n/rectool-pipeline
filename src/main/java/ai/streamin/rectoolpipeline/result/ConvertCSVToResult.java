@@ -3,6 +3,7 @@ package ai.streamin.rectoolpipeline.result;
 import java.io.IOException;
 import java.io.StringReader;
 
+import org.apache.beam.sdk.options.ValueProvider;
 import org.apache.beam.sdk.transforms.DoFn;
 import org.apache.beam.sdk.values.KV;
 import org.apache.commons.csv.CSVFormat;
@@ -17,9 +18,9 @@ public class ConvertCSVToResult extends DoFn<String, KV<ResultKey, Result>> {
 			"TradeId","Book","Pair","PV"
 	};
 
-	private String delimiter;
+	private ValueProvider<String> delimiter;
 
-	public ConvertCSVToResult(String delimiter) {
+	public ConvertCSVToResult(ValueProvider<String> delimiter) {
 		this.delimiter = delimiter;
 	}
 
@@ -27,7 +28,7 @@ public class ConvertCSVToResult extends DoFn<String, KV<ResultKey, Result>> {
 	public void processElement(ProcessContext ctx) throws IllegalArgumentException, IOException {
 
 		try(CSVParser parser = new CSVParser(new StringReader(ctx.element()), CSVFormat.DEFAULT
-				.withDelimiter(delimiter.charAt(0))
+				.withDelimiter(delimiter.get().charAt(0))
 				.withHeader(FILE_HEADER_MAPPING))) {
 
 			CSVRecord csvrecord = parser.getRecords().get(0);
