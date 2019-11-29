@@ -1,0 +1,28 @@
+{
+  "description": "Pipeline to reconcile a candidate file vs reference.",
+  "name": "Rectool",
+  "parameters": [
+    {
+      "regexes": [
+        "^gs:\\/\\/[^\\n\\r]+$"
+      ],
+      "name": "referenceFile",
+      "helpText": "Path to the Reference file. ex: gs://streamin-dataflow/rec/REC_VAN_R.txt",
+      "label": "Input GCS file(s)"
+    },
+    {
+      "regexes": [
+        "^gs:\\/\\/[^\\n\\r]+$"
+      ],
+      "name": "candidateFile",
+      "helpText": "Path to the Candidate file. ex: gs://streamin-dataflow/rec/REC_VAN_C.txt",
+      "label": "Output GCS file(s)"
+    },
+    {
+       "is_optional": true,
+       "name": "csvDelimiter",
+       "helpText": "Delimeter used. ex: ,",
+       "label": "Output GCS file(s)"
+     }
+  ]
+}
