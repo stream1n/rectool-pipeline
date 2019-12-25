@@ -5,3 +5,5 @@ gcloud dataflow jobs run rectool --gcs-location gs://streamin-dataflow/templates
 RECTOOL_metadata is stored in same directory as template
 
 gsutil cp rec/REC_VAN_REF.txt gs://streamin-data-flow/rec/REC_VAN_REF.txt
+
+gsutil cp RECTOOL_metadata  gs://streamin-data-flow/templates/RECTOOL_metadata
